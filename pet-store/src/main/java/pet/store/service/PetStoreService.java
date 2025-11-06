@@ -21,7 +21,6 @@ public class PetStoreService {
 	public PetStoreData savePetStore(PetStoreData petStoreData) {
 		Long petStoreId = petStoreData.getPetStoreId();
 		PetStore petStore = findOrCreatePetStore(petStoreId);
-
 		copyPetStoreFields(petStore, petStoreData);
 		return new PetStoreData(petStoreDao.save(petStore));
 	}
@@ -38,23 +37,28 @@ public class PetStoreService {
 		petStore.setPetStorePhone(petStoreData.getPetStorePhone());
 	}
 
-	// Returns an existing PetStore if an ID is supplied, otherwise creates a new
-	// instance.
+	// Returns an existing PetStore if an ID is supplied, otherwise creates a new instance.
 	private PetStore findOrCreatePetStore(Long petStoreId) {
 		if (Objects.isNull(petStoreId)) {
-			// Creating a brand new store (POST)
+			// Create a brand new store (POST)
 			return new PetStore();
+		} else {
+			return findByPetStoreId(petStoreId);
 		}
+	}
 
-		// Update an existing store (PUT) – must exist, otherwise 404
+	// Update an existing store (PUT). Must exist, otherwise 404.
+	private PetStore findByPetStoreId(Long petStoreId) {
 		return petStoreDao.findByPetStoreId(petStoreId)
-				.orElseThrow(() -> new NoSuchElementException("Pet Store with ID " + petStoreId + " was not found."));
+				.orElseThrow(() -> new NoSuchElementException(
+						"Pet Store with ID " + petStoreId + " was not found."));
 	}
 
 	// READ – used by a GET (optional for the assignment)
 	public PetStoreData getPetStore(Long id) {
 		PetStore entity = petStoreDao.findByPetStoreId(id)
-				.orElseThrow(() -> new NoSuchElementException("Pet Store with ID " + id + " was not found."));
+				.orElseThrow(() -> new NoSuchElementException(
+						"Pet Store with ID " + id + " was not found."));
 		return new PetStoreData(entity);
 	}
 

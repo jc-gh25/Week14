@@ -33,8 +33,7 @@ public class PetStoreController {
 	// Update (PUT)
 	// The request body must contain all fields of the store. Omitted fields will be
 	// overwritten with null.
-	// For partial updates use the PATCH endpoint (not implemented in this
-	// assignment).
+	// For partial updates use the PATCH endpoint (not implemented in this assignment).
 	@PutMapping("/{storeId}")
 	@ResponseStatus(HttpStatus.OK)
 	public PetStoreData updatePetStore(@PathVariable("storeId") Long storeId, @RequestBody PetStoreData petStoreData) {
